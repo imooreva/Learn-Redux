@@ -1,3 +1,3 @@
 node_modules/
-app/styles/base/_foundation-settings.scss
-app/tests
+app/styles/
+app/tests/
