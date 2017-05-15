@@ -13,6 +13,6 @@ app.use((req,res,next) => {
 
 app.use(express.static('public'));
 
-app.get('/favicon.ico', (req, res) => res.send(204));
+app.get('/favicon.ico', (req, res) => res.sendStatus(204));
 
 app.listen(PORT, ()=> { console.log('Express server is up on port', PORT) });
