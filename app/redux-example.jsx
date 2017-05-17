@@ -14,16 +14,29 @@ var reducer = (state = {name: 'Anonymous'}, action) => {
             return state;
     }
 };
+//check for Redux dev Chrome extension: if it does not exist, pass plain function to keep middleware process working
+var store = redux.createStore(reducer, redux.compose(
+    window.devToolsExtension ? window.devToolsExtension() : f => f
+));
 
-var store = redux.createStore(reducer);
+//Subscribe to changes
+var unsubscribe = store.subscribe(()=> {
+    var state = store.getState();
+    
+    console.log('Name is', state.name);
+    document.getElementById('app').innerHTML = state.name;
+});
+//unsubscribe();
 
 var currentState = store.getState();
 console.log('currentState', currentState);
 
-var action = {
+store.dispatch({
     type: 'CHANGE_NAME',
     name: 'Andrew'
-};
-store.dispatch(action);
+});
 
-console.log('Name should be andrew', store.getState());
+store.dispatch({
+    type: 'CHANGE_NAME',
+    name: 'Emily'
+});

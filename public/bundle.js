@@ -111,11 +111,10 @@
 	//app css
 	__webpack_require__(248);
 
-	ReactDOM.render(React.createElement(
-	    'p',
-	    null,
-	    'Boilerplate 3 project'
-	), document.getElementById('app'));
+	//ReactDOM.render(
+	//    <p>Boilerplate 3 project</p>,
+	//    document.getElementById('app')
+	//);
 
 	//require('./redux-example.jsx');
 	__webpack_require__(252);
@@ -28156,18 +28155,37 @@
 	            return state;
 	    }
 	};
+	//check for Redux dev Chrome extension: if it does not exist, pass plain function to keep middleware process working
+	var store = redux.createStore(reducer, redux.compose(window.devToolsExtension ? window.devToolsExtension() : function (f) {
+	    return f;
+	}));
 
-	var store = redux.createStore(reducer);
+	//Subscribe to changes
+	var unsubscribe = store.subscribe(function () {
+	    var state = store.getState();
+
+	    console.log('Search text:', state.searchText);
+	    document.getElementById('app').innerHTML = state.searchText;
+	});
 
 	console.log('currentState: ', store.getState());
 
-	var action = {
+	store.dispatch({
 	    type: 'CHANGE_SEARCH_TEXT',
-	    searchText: 'here is some text'
-	};
-	store.dispatch(action);
+	    searchText: 'work'
+	});
 
-	console.log('Search text should not be blank: ', store.getState());
+	store.dispatch({
+	    type: 'CHANGE_SEARCH_TEXT',
+	    searchText: 'play'
+	});
+
+	store.dispatch({
+	    type: 'CHANGE_SEARCH_TEXT',
+	    searchText: 'rest'
+	});
+
+	console.log('Search text: ', store.getState());
 
 /***/ }),
 /* 253 */
