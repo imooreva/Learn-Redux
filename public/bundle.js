@@ -28135,15 +28135,8 @@
 
 	console.log('Starting redux example');
 
-	var stateDefault = {
-	    name: 'Anonymous',
-	    hobbies: [],
-	    movies: []
-	};
-
-	var nextHobbyId = 1;
-	var nextMovieId = 1;
-
+	//Name reducer and action generators
+	//--------------------
 	var nameReducer = function nameReducer() {
 	    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'Anonymous';
 	    var action = arguments[1];
@@ -28156,6 +28149,16 @@
 	    };
 	};
 
+	var changeName = function changeName(name) {
+	    return {
+	        type: 'CHANGE_NAME',
+	        name: name
+	    };
+	};
+
+	//Hobby reducer and action generators
+	//--------------------
+	var nextHobbyId = 1;
 	var hobbiesReducer = function hobbiesReducer() {
 	    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 	    var action = arguments[1];
@@ -28175,6 +28178,23 @@
 	    };
 	};
 
+	var addHobby = function addHobby(hobby) {
+	    return {
+	        type: 'ADD_HOBBY',
+	        hobby: hobby
+	    };
+	};
+
+	var removeHobby = function removeHobby(id) {
+	    return {
+	        type: 'REMOVE_HOBBY',
+	        id: id
+	    };
+	};
+
+	//Movie reducer and action generators
+	//--------------------
+	var nextMovieId = 1;
 	var moviesReducer = function moviesReducer() {
 	    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 	    var action = arguments[1];
@@ -28195,9 +28215,25 @@
 	    };
 	};
 
+	var addMovie = function addMovie(title, genre) {
+	    return {
+	        type: 'ADD_MOVIE',
+	        title: title,
+	        genre: genre
+	    };
+	};
+
+	var removeMovie = function removeMovie(id) {
+	    return {
+	        type: 'REMOVE_MOVIE',
+	        id: id
+	    };
+	};
+
+	//Consolidate into one reducer
 	var reducer = redux.combineReducers({
 	    name: nameReducer,
-	    hobbie: hobbiesReducer,
+	    hobbies: hobbiesReducer,
 	    movies: moviesReducer
 	});
 
@@ -28221,47 +28257,21 @@
 	console.log('currentState', currentState);
 
 	//dispatch actions
-	store.dispatch({
-	    type: 'CHANGE_NAME',
-	    name: 'Andrew'
-	});
+	store.dispatch(changeName('Andrew'));
 
-	store.dispatch({
-	    type: 'ADD_HOBBY',
-	    hobby: 'Running'
-	});
+	store.dispatch(addHobby('Running'));
 
-	store.dispatch({
-	    type: 'ADD_HOBBY',
-	    hobby: 'Walking'
-	});
+	store.dispatch(addHobby('Walking'));
 
-	store.dispatch({
-	    type: 'REMOVE_HOBBY',
-	    id: 2
-	});
+	store.dispatch(removeHobby(2));
 
-	store.dispatch({
-	    type: 'CHANGE_NAME',
-	    name: 'Emily'
-	});
+	store.dispatch(changeName('Emily'));
 
-	store.dispatch({
-	    type: 'ADD_MOVIE',
-	    title: 'Mad Max',
-	    genre: 'Action'
-	});
+	store.dispatch(addMovie('Mad Max', 'Action'));
 
-	store.dispatch({
-	    type: 'ADD_MOVIE',
-	    title: 'Star Wars',
-	    genre: 'Action'
-	});
+	store.dispatch(addMovie('Star Wars', 'Action'));
 
-	store.dispatch({
-	    type: 'REMOVE_MOVIE',
-	    id: 1
-	});
+	store.dispatch(removeMovie(1));
 
 /***/ }),
 /* 253 */
